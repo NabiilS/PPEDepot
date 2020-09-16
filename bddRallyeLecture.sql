@@ -10,7 +10,7 @@ drop table if exists editeur;
 
 create table editeur(
 id int auto_increment not null,
-nom varchar (30)
+nom varchar (30),
 primary key(id))engine=innodb;
 
 
@@ -19,7 +19,7 @@ drop table if exists auteur;
 
 create table auteur(
 id int auto_increment not null,
-nom varchar (30)
+nom varchar (30),
 primary key(id))engine=innodb;
 
 /* suppression puis création de la table livre */
@@ -96,8 +96,9 @@ create table eleve(
     nom varchar (30),
     prenom varchar (20),
     loginv varchar (100),
-    idAuth int,
-    )engine=innodb;
+    idAuth int, 
+    primary key (id),
+    foreign key (idClasse) references classe (id))engine=innodb;
 
 /* suppression puis création de la table reponse */
 drop table if exists reponse;
@@ -106,7 +107,11 @@ create table reponse(
 idParticiperRallye int,
 idParticiperEleve int,
 idQuestion int,
-idProposition int)engine=innodb;
+idProposition int,
+primary key (idParticiperEleve),
+primary key (idParticiperRallye),
+foreign key (idQuestion) references Question(id),
+foreign key (idProposition) references proposition (id))engine=innodb;
 
 /* suppression puis création de la table classe */
 drop table if exists classe;
@@ -115,7 +120,10 @@ create table classe(
 id int,
 idEnseignant int,
 anneeScolaire varchar (45),
-idNiveau int)engine=innodb;
+idNiveau int,
+primary key(id),
+foreign key (idEnseignant) references enseignant(id),
+foreign key (idNiveau) references niveau(id))engine=innodb;
 
 /* suppression puis création de la table enseignant */
 drop table if exists enseignant ;
@@ -125,23 +133,11 @@ id int,
 nom varchar (30),
 prenom varchar (45),
 loginE varchar (100),
-idAuth int)engine=innodb;
+idAuth int,
+primary key(id))engine=innodb;
 
 /* suppression puis création de la table enseignant */
 drop table if exists niveau(
 id int,
-niveauScolaire varchar(45))engine=innodb;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+niveauScolaire varchar(45),
+primary key(id))engine=innodb;
